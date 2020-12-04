@@ -1,14 +1,13 @@
 import React from "react";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import Firebase from'./config/firebase';
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "./components/screens/ProfileScreen";
 import HomeScreen from "./components/screens/HomeScreen";
 import { Header } from "./components/header/Header";
 import { PillboxHomeScreen } from "./components/screens/PillboxHomeScreen";
-import { LoginScreen } from "./components/screens/LoginScreen";
 import { StyleSheet, Text, View } from "react-native";
+import { LogRegScreen } from "./components/screens/LogRegScreen";
 
 const Stack = createStackNavigator();
 
@@ -20,7 +19,7 @@ export default function App(props) {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="LogReg"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#f4511e",
@@ -47,9 +46,9 @@ export default function App(props) {
           options={{ headerTitle: (props) => <Header {...props} /> }}
         />
         <Stack.Screen
-         options={{headerShown: false}}
-          name="Login"
-          component={LoginScreen}
+          options={{ headerShown: false }}
+          name="LogReg"
+          component={LogRegScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
