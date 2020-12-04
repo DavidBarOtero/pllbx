@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, TextInput, ScrollView } from "react-native";
+import {
+  Button,
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  ScrollView,
+} from "react-native";
 
 export const LogRegScreen = () => {
   const [state, setstate] = useState({
     email: "",
     password: "",
   });
-  console.log(state);
+
   const handleLogReg = (name, value) => {
     {
       setstate({ ...state, [name]: value });
@@ -15,13 +22,21 @@ export const LogRegScreen = () => {
 
   const [isReg, setIsReg] = useState(false);
 
+  const saveNewUser = () => {
+    console.log("soy el registro"+state);
+  };
+  
+  const login=()=>{console.log("soy el login"+state)};
+  
+  const handleMethod=()=>isReg===true ? saveNewUser():login();
+
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.inputContainer}>
+    <ScrollView style={styles.container}>
+      <View style={styles.inputContainer}>
+        <Text style={styles.tittleInput}>
+          {isReg === false ? "Accede a tu cuenta" : "Crear nueva cuenta"}
+        </Text>
         <View>
-          <Text style={styles.tittleInput}>
-            {isReg === false ? "Accede a tu cuenta" : "Crea una nueva cuenta"}
-          </Text>
           <TextInput
             style={styles.input}
             autoCapitalize="none"
@@ -41,13 +56,19 @@ export const LogRegScreen = () => {
             onChangeText={(value) => handleLogReg("password", value)}
           />
         </View>
-        <Text onPress={() => setIsReg(!isReg)}>
+        <Button title={isReg === false ? "Entrar" : "Registrarse"}
+        onPress={handleMethod}
+        
+        
+        
+        ></Button>
+        <Text style={styles.footer} onPress={() => setIsReg(!isReg)}>
           {isReg === false
-            ? "¿No tienes cuenta?Registrarse"
+            ? "¿No tienes cuenta?Registrate"
             : "¿Ya tienes cuenta? Accede a tu cuenta"}
         </Text>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -65,13 +86,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#f4511e",
   },
   inputContainer: {
-    marginTop: 250,
+    marginTop: 200,
     margin: 50,
   },
-  
-  tittleInput:{
-    alignContent:"center",
-    marginBottom:20
-    
-  }
+
+  tittleInput: {
+    marginBottom: 20,
+    textAlign: "center",
+    fontSize: 15,
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  footer: {
+    marginTop: 10,
+    color: "white",
+  },
 });
