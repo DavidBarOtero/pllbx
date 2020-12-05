@@ -11,13 +11,15 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import { register } from "../../api/Api";
 
-export const LogRegScreen = () => {
+export const LogRegScreen = ({ navigation }) => {
   const [state, setState] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [isReg, setIsReg] = useState(false);
 
   const handleLogReg = (name, value) => {
     {
@@ -25,29 +27,7 @@ export const LogRegScreen = () => {
     }
   };
 
-  const [isReg, setIsReg] = useState(false);
-
-  const saveNewUser = () => {
-    if ((state.email || state.password) === "") {
-      Alert.alert("Error en el registro", "Debes rellenar todos los campos");
-    } else {
-      firebase
-        .firestore()
-        .collection("users")
-        .add({
-          email: state.email,
-          password: state.password,
-          confirmPassword: state.confirmPassword,
-        })
-        .then();
-    }
-  };
-
-  const login = () => {
-    console.log("soy el login" + state);
-  };
   useEffect(() => {
-  
     return () => {
       setState({
         email: "",
@@ -56,7 +36,28 @@ export const LogRegScreen = () => {
       });
     };
   }, [isReg]);
-  const handleMethod = () => (isReg === true ? saveNewUser() : login());
+  const onRegisterPress = () => {
+    let email=state.email;
+    let password=state.password
+    if (
+      state.email === "" ||
+      state.password === "" ||
+      state.confirmPassword === ""
+    ) {
+      Alert.alert("Error en el registro", "Debes rellenar todos los campos");
+    } else if (state.password !== state.confirmPassword) {
+      Alert.alert("Error al confirmar tu contraseña","Asegurate de haber confirmado correctamente la contraseña");
+    } else {
+      register(state.email,state.password,{ navigation });
+ 
+    }
+  };
+
+
+  const login = () => {
+    console.log("soy el login" + state);
+  };
+  const handleMethod = () => (isReg === true ? onRegisterPress() : login());
 
   return (
     <ScrollView style={styles.container}>
@@ -82,6 +83,7 @@ export const LogRegScreen = () => {
             autoCorrect={false}
             placeholder="Contraseña"
             placeholderTextColor="white"
+            secureTextEntry={true}
             onChangeText={(value) => handleLogReg("password", value)}
             value={state.password}
           />
@@ -94,6 +96,7 @@ export const LogRegScreen = () => {
               autoCorrect={false}
               placeholder="Confirmar Contraseña"
               placeholderTextColor="white"
+              secureTextEntry={true}
               onChangeText={(value) => handleLogReg("confirmPassword", value)}
               value={state.confirmPassword}
             />
