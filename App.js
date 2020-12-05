@@ -22,7 +22,7 @@ export default function App(props) {
         initialRouteName="LogReg"
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#f4511e",
+            backgroundColor: '#087598',
           },
           headerTintColor: "#fff",
           headerTitleStyle: {

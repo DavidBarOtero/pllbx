@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import firebase from'./../../database/firebase';
 import {
   Button,
   Text,
@@ -23,12 +24,25 @@ export const LogRegScreen = () => {
   const [isReg, setIsReg] = useState(false);
 
   const saveNewUser = () => {
-    console.log("soy el registro"+state);
+    
+    if(state.email===""){
+      
+      alert("Debes introducir un email");
+      
+    }else if(state.password==="")
+    console.log("soy el registro" + state);
+    firebase.db.collection('users').add({
+      email: state.email,
+      password: state.password,
+      
+    })
   };
-  
-  const login=()=>{console.log("soy el login"+state)};
-  
-  const handleMethod=()=>isReg===true ? saveNewUser():login();
+
+  const login = () => {
+    console.log("soy el login" + state);
+  };
+
+  const handleMethod = () => (isReg === true ? saveNewUser() : login());
 
   return (
     <ScrollView style={styles.container}>
@@ -56,15 +70,14 @@ export const LogRegScreen = () => {
             onChangeText={(value) => handleLogReg("password", value)}
           />
         </View>
-        <Button title={isReg === false ? "Entrar" : "Registrarse"}
-        onPress={handleMethod}
-        
-        
-        
+        <Button
+          buttonStyle={styles.button}
+          title={isReg === false ? "Entrar" : "Registrarse"}
+          onPress={handleMethod}
         ></Button>
         <Text style={styles.footer} onPress={() => setIsReg(!isReg)}>
           {isReg === false
-            ? "¿No tienes cuenta?Registrate"
+            ? "¿No tienes cuenta? Registrate"
             : "¿Ya tienes cuenta? Accede a tu cuenta"}
         </Text>
       </View>
@@ -76,18 +89,22 @@ const styles = StyleSheet.create({
   input: {
     padding: 0,
     marginBottom: 15,
-    borderBottomColor: "#cccccc",
+    borderBottomColor: "#394549",
     borderBottomWidth: 1,
     color: "black",
   },
   container: {
     flex: 1,
 
-    backgroundColor: "#f4511e",
+    backgroundColor: "#087598",
   },
   inputContainer: {
     marginTop: 200,
-    margin: 50,
+    margin: 20,
+    padding: 15,
+    borderColor: "black",
+    backgroundColor: "#ACD1DC",
+    borderRadius: 15,
   },
 
   tittleInput: {
@@ -100,6 +117,9 @@ const styles = StyleSheet.create({
   },
   footer: {
     marginTop: 10,
-    color: "white",
+    color: "black",
+    textAlign: "right",
+    fontSize: 11,
   },
+
 });
