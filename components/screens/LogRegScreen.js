@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import firebase from'./../../database/firebase';
+import React, { useState, useEffect } from "react";
+import firebase from "./../../database/firebase";
+import "@firebase/auth";
+import "@firebase/firestore";
 import {
   Button,
   Text,
@@ -7,41 +9,53 @@ import {
   View,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 
 export const LogRegScreen = () => {
-  const [state, setstate] = useState({
+  const [state, setState] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const handleLogReg = (name, value) => {
     {
-      setstate({ ...state, [name]: value });
+      setState({ ...state, [name]: value });
     }
   };
 
   const [isReg, setIsReg] = useState(false);
 
   const saveNewUser = () => {
-    
-    if(state.email===""){
-      
-      alert("Debes introducir un email");
-      
-    }else if(state.password==="")
-    console.log("soy el registro" + state);
-    firebase.db.collection('users').add({
-      email: state.email,
-      password: state.password,
-      
-    })
+    if ((state.email || state.password) === "") {
+      Alert.alert("Error en el registro", "Debes rellenar todos los campos");
+    } else {
+      firebase
+        .firestore()
+        .collection("users")
+        .add({
+          email: state.email,
+          password: state.password,
+          confirmPassword: state.confirmPassword,
+        })
+        .then();
+    }
   };
 
   const login = () => {
     console.log("soy el login" + state);
   };
-
+  useEffect(() => {
+  
+    return () => {
+      setState({
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    };
+  }, [isReg]);
   const handleMethod = () => (isReg === true ? saveNewUser() : login());
 
   return (
@@ -57,6 +71,7 @@ export const LogRegScreen = () => {
             autoCorrect={false}
             placeholder="Email"
             placeholderTextColor="white"
+            value={state.email}
             onChangeText={(value) => handleLogReg("email", value)}
           />
         </View>
@@ -68,8 +83,22 @@ export const LogRegScreen = () => {
             placeholder="Contraseña"
             placeholderTextColor="white"
             onChangeText={(value) => handleLogReg("password", value)}
+            value={state.password}
           />
         </View>
+        {isReg === true && (
+          <View>
+            <TextInput
+              style={styles.input}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="Confirmar Contraseña"
+              placeholderTextColor="white"
+              onChangeText={(value) => handleLogReg("confirmPassword", value)}
+              value={state.confirmPassword}
+            />
+          </View>
+        )}
         <Button
           buttonStyle={styles.button}
           title={isReg === false ? "Entrar" : "Registrarse"}
@@ -121,5 +150,4 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontSize: 11,
   },
-
 });
