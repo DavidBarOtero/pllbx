@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import firebase from "./../../database/firebase";
 import "@firebase/auth";
-import "@firebase/firestore";
+
 import {
   Button,
   Text,
@@ -12,7 +12,7 @@ import {
   Alert,
 } from "react-native";
 import { register } from "../../api/Api";
-
+import {signInWithFacebook}from "../../api/Api";
 export const LogRegScreen = ({ navigation }) => {
   const [state, setState] = useState({
     email: "",
@@ -26,6 +26,10 @@ export const LogRegScreen = ({ navigation }) => {
       setState({ ...state, [name]: value });
     }
   };
+  const firstLogin = () => setIsReg(false);
+
+
+  
 
   useEffect(() => {
     return () => {
@@ -37,8 +41,6 @@ export const LogRegScreen = ({ navigation }) => {
     };
   }, [isReg]);
   const onRegisterPress = () => {
-    let email=state.email;
-    let password=state.password
     if (
       state.email === "" ||
       state.password === "" ||
@@ -46,13 +48,14 @@ export const LogRegScreen = ({ navigation }) => {
     ) {
       Alert.alert("Error en el registro", "Debes rellenar todos los campos");
     } else if (state.password !== state.confirmPassword) {
-      Alert.alert("Error al confirmar tu contraseña","Asegurate de haber confirmado correctamente la contraseña");
+      Alert.alert(
+        "Error al confirmar tu contraseña",
+        "Asegurate de haber confirmado correctamente la contraseña"
+      );
     } else {
-      register(state.email,state.password,{ navigation });
- 
+      register(state.email, state.password, firstLogin);
     }
   };
-
 
   const login = () => {
     console.log("soy el login" + state);
@@ -107,6 +110,14 @@ export const LogRegScreen = ({ navigation }) => {
           title={isReg === false ? "Entrar" : "Registrarse"}
           onPress={handleMethod}
         ></Button>
+
+        <Button
+           onPress={signInWithFacebook}
+          title={
+            isReg === false ? "Entrar con Facebook" : "Registrarse con Facebook"
+          }
+        ></Button>
+
         <Text style={styles.footer} onPress={() => setIsReg(!isReg)}>
           {isReg === false
             ? "¿No tienes cuenta? Registrate"
