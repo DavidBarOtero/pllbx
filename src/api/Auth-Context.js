@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import * as Facebook from "expo-facebook";
 import * as RootNavigation from "./../RootNavigation";
-import getEnvVars from '../../environment';
+import { firebaseConfig } from "./../database/firebase";
+
 import firebase from "../database/firebase";
+
 import "@firebase/auth";
 import "@firebase/firestore";
-
 
 const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const{appFacebookId}=getEnvVars();
+  //  const{appFacebookId}=getEnvVars();
+  const { appFacebookId } = firebaseConfig;
   const [user, setUser] = useState(false);
 
   const usersRef = firebase.firestore().collection("users");
 
-  const appId = "187104516388378";
   useEffect(() => {
     if (user === true) {
       RootNavigation.navigate("Home");

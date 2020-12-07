@@ -1,17 +1,21 @@
 import * as firebase from "firebase";
 import "firebase/auth";
 import "firebase/firestore";
+import getEnvVars from '../../environment';
 
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCHRghJGrK1xn1rh96_9awU5HAarT2j728",
-  authDomain: "pllbx-13b32.firebaseapp.com",
-  databaseURL: "https://pllbx-13b32-default-rtdb.firebaseio.com",
-  projectId: "pllbx-13b32",
-  storageBucket: "pllbx-13b32.appspot.com",
-  messagingSenderId: "487157437668",
-  appId: "1:487157437668:web:57932548b3ac91b30bc8f1",
-  facebookId:"187104516388378"
+const {apiKey,authDomain,databaseURL,projectId,storageBucket,messagingSenderId,appId,appFacebookId}=getEnvVars();
+
+
+export const firebaseConfig = {
+  apiKey:apiKey,
+  authDomain: authDomain,
+  databaseURL:databaseURL ,
+  projectId: projectId,
+  storageBucket: storageBucket,
+  messagingSenderId: messagingSenderId,
+  appId: appId,
+  appFacebookId:appFacebookId
 };
 
 
