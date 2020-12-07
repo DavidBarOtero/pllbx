@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import AuthContext from "./../../api/Auth-Context";
+import { Entypo } from '@expo/vector-icons';
 
 export const Header = (props) => {
-  console.log(props);
   const navigation = useNavigation();
+  const { signOut } = useContext(AuthContext);
   return (
     <View>
       <View style={styles.container}>
+        <AntDesign
+          name="home"
+          size={35}
+          color="black"
+          onPress={() => navigation.navigate("Home")}
+        />
         <AntDesign
           name="calendar"
           size={35}
@@ -21,12 +29,7 @@ export const Header = (props) => {
           color="black"
           onPress={() => navigation.navigate("Profile")}
         />
-        <AntDesign
-          name="home"
-          size={35}
-          color="black"
-          onPress={() => navigation.navigate("Home")}
-        />
+      <Entypo name="log-out" size={35} color="black" onPress={()=>signOut({navigation})}/>
       </View>
     </View>
   );

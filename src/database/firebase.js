@@ -1,7 +1,7 @@
 import * as firebase from "firebase";
 import "firebase/auth";
 import "firebase/firestore";
-import { Facebook } from "expo";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCHRghJGrK1xn1rh96_9awU5HAarT2j728",
@@ -16,8 +16,8 @@ const firebaseConfig = {
 
 
 
-if (!firebase.apps.length) {
+
   firebase.initializeApp(firebaseConfig);
-}
+
 
 export default firebase ;

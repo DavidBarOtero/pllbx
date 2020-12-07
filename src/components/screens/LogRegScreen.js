@@ -1,35 +1,70 @@
-import React, { useState, useEffect } from "react";
-import firebase from "./../../database/firebase";
-import "@firebase/auth";
+import React, { useState, useEffect,useContext } from "react";
+import { Button,Text,StyleSheet,View,TextInput, ScrollView,Alert,} from "react-native";
+import AuthContext from './../../api/Auth-Context';
+ import { register } from "../../api/Auth-Context";
 
-import {
-  Button,
-  Text,
-  StyleSheet,
-  View,
-  TextInput,
-  ScrollView,
-  Alert,
-} from "react-native";
-import { register } from "../../api/Api";
-import {signInWithFacebook}from "../../api/Api";
+import { FontAwesome } from "@expo/vector-icons";
+
 export const LogRegScreen = ({ navigation }) => {
+  
+  
+  
+   const{register,userLogin,signInWithFacebook}=useContext(AuthContext);
+  
+  
   const [state, setState] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [isReg, setIsReg] = useState(false);
+
+  const [isRegMenu, setIsRegMenu] = useState(false);
 
   const handleLogReg = (name, value) => {
     {
       setState({ ...state, [name]: value });
     }
   };
-  const firstLogin = () => setIsReg(false);
 
+  const onRegisterPress = () => {
+    if (
+      state.email === "" ||
+      state.password === "" ||
+      state.confirmPassword === ""
+    ) {
+      Alert.alert("Error en el registro", "Debes rellenar todos los campos.");
+    } else if (state.password.length < 6) {
+      Alert.alert(
+        "Error al introducir tu contraseña",
+        "La contraseña debe contener 6 caracteres como mínimo."
+      );
+    } else if (state.password !== state.confirmPassword) {
+      Alert.alert(
+        "Error al confirmar tu contraseña",
+        "Asegurate de haber confirmado correctamente la contraseña."
+      );
+    } else {
+      {register(state.email, state.password, { navigation })};
+    }
+  };
+  const onLoginPress = () => {
+    if (
+      state.email === "" ||
+      state.password === "" 
+     
+    ) {
+      Alert.alert("Error en el registro", "Debes rellenar todos los campos.");
+    } else{
+      userLogin(state.email,state.password,{navigation});
+      
+    }
+    }
 
+     
+    
   
+ 
+  const handleMethod = () => (isRegMenu === true ? onRegisterPress() : onLoginPress());
 
   useEffect(() => {
     return () => {
@@ -39,34 +74,13 @@ export const LogRegScreen = ({ navigation }) => {
         confirmPassword: "",
       });
     };
-  }, [isReg]);
-  const onRegisterPress = () => {
-    if (
-      state.email === "" ||
-      state.password === "" ||
-      state.confirmPassword === ""
-    ) {
-      Alert.alert("Error en el registro", "Debes rellenar todos los campos");
-    } else if (state.password !== state.confirmPassword) {
-      Alert.alert(
-        "Error al confirmar tu contraseña",
-        "Asegurate de haber confirmado correctamente la contraseña"
-      );
-    } else {
-      register(state.email, state.password, firstLogin);
-    }
-  };
-
-  const login = () => {
-    console.log("soy el login" + state);
-  };
-  const handleMethod = () => (isReg === true ? onRegisterPress() : login());
+  }, [isRegMenu]);
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.inputContainer}>
         <Text style={styles.tittleInput}>
-          {isReg === false ? "Accede a tu cuenta" : "Crear nueva cuenta"}
+          {isRegMenu === false ? "Accede a tu cuenta" : "Crear nueva cuenta"}
         </Text>
         <View>
           <TextInput
@@ -91,7 +105,7 @@ export const LogRegScreen = ({ navigation }) => {
             value={state.password}
           />
         </View>
-        {isReg === true && (
+        {isRegMenu === true && (
           <View>
             <TextInput
               style={styles.input}
@@ -106,23 +120,25 @@ export const LogRegScreen = ({ navigation }) => {
           </View>
         )}
         <Button
-          buttonStyle={styles.button}
-          title={isReg === false ? "Entrar" : "Registrarse"}
+        
+          title={isRegMenu === false ? "Entrar" : "Registrarse"}
           onPress={handleMethod}
         ></Button>
-
-        <Button
-           onPress={signInWithFacebook}
-          title={
-            isReg === false ? "Entrar con Facebook" : "Registrarse con Facebook"
-          }
-        ></Button>
-
-        <Text style={styles.footer} onPress={() => setIsReg(!isReg)}>
-          {isReg === false
-            ? "¿No tienes cuenta? Registrate"
-            : "¿Ya tienes cuenta? Accede a tu cuenta"}
-        </Text>
+        <View style={styles.icon}>
+           <FontAwesome
+            style={styles.facebook}
+            onPress={signInWithFacebook}
+            name="facebook-official"
+            size={50}
+            color="blue"
+          />
+       
+          <Text style={styles.footer} onPress={() => setIsRegMenu(!isRegMenu)}>
+            {isRegMenu === false
+              ? "¿No tienes cuenta? Registrate"
+              : "¿Ya tienes cuenta? Accede a tu cuenta"}
+          </Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -163,5 +179,18 @@ const styles = StyleSheet.create({
     color: "black",
     textAlign: "right",
     fontSize: 11,
+  },
+  icon: {
+    display: "flex",
+    flexDirection: "row",
+    padding: 5,
+  },
+
+  facebook: {
+    margin: 10,
+  },
+
+  twitter: {
+    margin: 10,
   },
 });
