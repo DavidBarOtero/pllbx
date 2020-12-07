@@ -11,13 +11,14 @@ const firebaseConfig = {
   storageBucket: "pllbx-13b32.appspot.com",
   messagingSenderId: "487157437668",
   appId: "1:487157437668:web:57932548b3ac91b30bc8f1",
+  facebookId:"187104516388378"
 };
 
 
 
 
-
+if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
-
+}
 
 export default firebase ;

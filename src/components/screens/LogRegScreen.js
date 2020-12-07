@@ -1,17 +1,21 @@
-import React, { useState, useEffect,useContext } from "react";
-import { Button,Text,StyleSheet,View,TextInput, ScrollView,Alert,} from "react-native";
-import AuthContext from './../../api/Auth-Context';
- import { register } from "../../api/Auth-Context";
+import React, { useState, useEffect, useContext } from "react";
+import {
+  Button,
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  ScrollView,
+  Alert,
+} from "react-native";
+import AuthContext from "./../../api/Auth-Context";
+import { register } from "../../api/Auth-Context";
 
 import { FontAwesome } from "@expo/vector-icons";
 
 export const LogRegScreen = ({ navigation }) => {
-  
-  
-  
-   const{register,userLogin,signInWithFacebook}=useContext(AuthContext);
-  
-  
+  const { register, userLogin, signInWithFacebook } = useContext(AuthContext);
+
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -44,27 +48,21 @@ export const LogRegScreen = ({ navigation }) => {
         "Asegurate de haber confirmado correctamente la contraseña."
       );
     } else {
-      {register(state.email, state.password, { navigation })};
+      {
+        register(state.email, state.password, { navigation });
+      }
     }
   };
   const onLoginPress = () => {
-    if (
-      state.email === "" ||
-      state.password === "" 
-     
-    ) {
+    if (state.email === "" || state.password === "") {
       Alert.alert("Error en el registro", "Debes rellenar todos los campos.");
-    } else{
-      userLogin(state.email,state.password,{navigation});
-      
+    } else {
+      userLogin(state.email, state.password, { navigation });
     }
-    }
+  };
 
-     
-    
-  
- 
-  const handleMethod = () => (isRegMenu === true ? onRegisterPress() : onLoginPress());
+  const handleMethod = () =>
+    isRegMenu === true ? onRegisterPress() : onLoginPress();
 
   useEffect(() => {
     return () => {
@@ -120,19 +118,18 @@ export const LogRegScreen = ({ navigation }) => {
           </View>
         )}
         <Button
-        
           title={isRegMenu === false ? "Entrar" : "Registrarse"}
           onPress={handleMethod}
         ></Button>
         <View style={styles.icon}>
-           <FontAwesome
+          <FontAwesome
             style={styles.facebook}
             onPress={signInWithFacebook}
             name="facebook-official"
             size={50}
             color="blue"
           />
-       
+
           <Text style={styles.footer} onPress={() => setIsRegMenu(!isRegMenu)}>
             {isRegMenu === false
               ? "¿No tienes cuenta? Registrate"

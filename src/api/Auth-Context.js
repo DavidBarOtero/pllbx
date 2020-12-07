@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as Facebook from "expo-facebook";
+
 import * as RootNavigation from "./../RootNavigation";
 import firebase from "../database/firebase";
 import "@firebase/auth";
@@ -8,7 +9,7 @@ import "@firebase/firestore";
 const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(false);
 
   const usersRef = firebase.firestore().collection("users");
 
@@ -16,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (user === true) {
       RootNavigation.navigate("Home");
+      // console.log(user)
     } else {
       RootNavigation.navigate("LogReg");
     }
@@ -30,7 +32,6 @@ export const AuthProvider = ({ children }) => {
         const data = {
           id: uid,
           email,
-          password,
         };
         usersRef
           .doc(uid)
@@ -78,6 +79,7 @@ export const AuthProvider = ({ children }) => {
 
       .catch((error) => alert(error));
   };
+
   const signInWithFacebook = async () => {
     const permissions = ["public_profile", "email"];
     await Facebook.initializeAsync({
@@ -86,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     const { type, token } = await Facebook.logInWithReadPermissionsAsync({
       permissions,
     });
-    console.log(token);
+    // console.log(token);
 
     if (type == "success") {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
@@ -102,17 +104,17 @@ export const AuthProvider = ({ children }) => {
 
           const uid = userData.uid;
           const name = userData.displayName;
-          const email=userData.email;
+          const email = userData.email;
+          setUser(true);
           const data = {
             id: uid,
             name,
-            email
+            email,
           };
           usersRef
             .doc(uid)
             .set(data)
             .then(() => {
-              setUser(true);
               alert("registro listo");
             })
             .catch((error) => {
@@ -123,7 +125,34 @@ export const AuthProvider = ({ children }) => {
         .catch((error) => console.log(error));
     }
   };
+  const signInWithGoogle = async () => {
+    try {
+      const result = await Expo.Google.logInAsync({
+        androidClientId: androidClientId,
+        iosClientId: IOSClientId,
+        behavior: "web",
+        iosClientId: "", //enter ios client id
+        scopes: ["profile", "email"],
+      });
 
+      if (result.type === "success") {
+        await firebase
+          .auth()
+          .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          data.idToken,
+          data.accessToken
+        );
+        const googleProfileData = await firebase
+          .auth()
+          .signInWithCredential(credential);
+        setUser(true);
+        console.log("registrado por google");
+      }
+    } catch ({ message }) {
+      alert("login: Error:" + message);
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -132,6 +161,7 @@ export const AuthProvider = ({ children }) => {
         signOut,
         user,
         signInWithFacebook,
+        signInWithGoogle,
       }}
     >
       {children}
