@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as Facebook from "expo-facebook";
-import * as RootNavigation from "./../RootNavigation";
+import * as RootNavigation from "../navigation/RootNavigation";
 import { firebaseConfig } from "./../database/firebase";
 
 import firebase from "../database/firebase";
@@ -13,7 +13,7 @@ const AuthContext = React.createContext();
 export const AuthProvider = ({ children }) => {
   //  const{appFacebookId}=getEnvVars();
   const { appFacebookId } = firebaseConfig;
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(true);
 
   const usersRef = firebase.firestore().collection("users");
 
