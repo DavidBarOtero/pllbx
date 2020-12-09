@@ -14,12 +14,8 @@ export default (props) => {
   } = props;
 
   const { routes } = state;
-  const [openMenu, setOpenMenu] = useState(false);
+
   
-  useEffect(() => {
-  console.log(openMenu);
-   
-  }, [openMenu])
   
   return (
     <SafeAreaView>
@@ -32,7 +28,7 @@ export default (props) => {
 
           justifyContent: "space-around",
         }}
-        openMenu={openMenu}
+      
       >
         {routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -52,10 +48,7 @@ export default (props) => {
             : inactiveBackgroundColor;
 
           const onPress = () => {
-            if ((options.title || route.name) == "Menú") {
-              setOpenMenu(!openMenu);
-            }
-
+         
             navigation.navigate(route.name);
           };
 
