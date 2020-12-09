@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 
-export default props => {
+export default (props) => {
   const {
     state,
     descriptors,
@@ -9,25 +9,30 @@ export default props => {
     activeBackgroundColor,
     activeTintColor,
     inactiveBackgroundColor,
-    inactiveTintColor
+    inactiveTintColor,
+    
   } = props;
-  
+
   const { routes } = state;
+  const [openMenu, setOpenMenu] = useState(false);
   
-  
-  
+  useEffect(() => {
+  console.log(openMenu);
+   
+  }, [openMenu])
   
   return (
     <SafeAreaView>
       <View
         style={{
           flexDirection: "row",
-          
+
           height: 64,
           alignItems: "center",
-    
-          justifyContent: "space-around"
+
+          justifyContent: "space-around",
         }}
+        openMenu={openMenu}
       >
         {routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -47,47 +52,47 @@ export default props => {
             : inactiveBackgroundColor;
 
           const onPress = () => {
+            if ((options.title || route.name) == "Menú") {
+              setOpenMenu(!openMenu);
+            }
+
             navigation.navigate(route.name);
           };
 
           return (
             <TouchableOpacity
+           
               key={index}
               style={{
-                  display:"flex",
+                display: "flex",
                 backgroundColor: backgroundColor,
                 flexDirection: "column",
                 margin: 4,
                 height: 50,
-                 padding: 24,
-                 
-                //  paddingRight: 16,
-                //  paddingLeft: 16,
-                  borderRadius:50,
-                justifyContent:"center",
-                alignItems: "center"
+                padding: 24,
+                borderTopColor: "black",
+
+                borderRadius: 50,
+                justifyContent: "center",
+                alignItems: "center",
               }}
               onPress={onPress}
             >
               {options.tabBarIcon !== undefined &&
-               
-                   options.tabBarIcon({ color: tintColor, size: 28 })
-               
-               
-               
-            }
-              { (
+                options.tabBarIcon({ color: tintColor, size: 28 })}
+              {
                 <Text
                   style={{
                     marginLeft: 8,
-                    color: tintColor
+
+                    color: tintColor,
                   }}
                 >
-                   {label} 
+                  {label}
                 </Text>
-              )}
-              
-              {/* {isFocused &&} */}
+              }
+
+      
             </TouchableOpacity>
           );
         })}
