@@ -16,7 +16,6 @@ export default (props) => {
   const { routes } = state;
 
   
-  
   return (
     <SafeAreaView>
       <View
@@ -28,7 +27,7 @@ export default (props) => {
 
           justifyContent: "space-around",
         }}
-      
+       
       >
         {routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -48,7 +47,10 @@ export default (props) => {
             : inactiveBackgroundColor;
 
           const onPress = () => {
-         
+            if ((options.title || route.name) == "Menú") {
+           
+            }
+
             navigation.navigate(route.name);
           };
 
