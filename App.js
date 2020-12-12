@@ -15,17 +15,7 @@ export default function App(props) {
   return (
     <NavigationContainer ref={navigationRef}>
       <AuthProvider>
-    
-  
-        
-          <Drawer.Navigator>
-            <Drawer.Screen name="Home" component={HomeScreen} />
-          </Drawer.Navigator>
-        
-        
-
-          <TabNavigator />
-      
+        <TabNavigator />
       </AuthProvider>
     </NavigationContainer>
   );

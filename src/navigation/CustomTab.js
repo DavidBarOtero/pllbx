@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 
 export default (props) => {
@@ -10,12 +10,10 @@ export default (props) => {
     activeTintColor,
     inactiveBackgroundColor,
     inactiveTintColor,
-    
   } = props;
 
   const { routes } = state;
 
-  
   return (
     <SafeAreaView>
       <View
@@ -27,7 +25,6 @@ export default (props) => {
 
           justifyContent: "space-around",
         }}
-       
       >
         {routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -46,17 +43,10 @@ export default (props) => {
             ? activeBackgroundColor
             : inactiveBackgroundColor;
 
-          const onPress = () => {
-            if ((options.title || route.name) == "Menú") {
-           
-            }
-
-            navigation.navigate(route.name);
-          };
+          const onPress = () => navigation.navigate(route.name);
 
           return (
             <TouchableOpacity
-           
               key={index}
               style={{
                 display: "flex",
@@ -86,8 +76,6 @@ export default (props) => {
                   {label}
                 </Text>
               }
-
-      
             </TouchableOpacity>
           );
         })}
