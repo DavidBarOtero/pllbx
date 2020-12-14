@@ -23,11 +23,21 @@ export default function HomeScreen({ route, navigation }) {
   });
 
   return (
-    <View>
-      <Text>HomeScreen</Text>
+    <View style={styles.container}>
+      <Text>HomeScreen, aqui cargaremos lo que tenga de medicación en el día actual</Text>
       
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  
+  container:{
+    top:40
+    
+    
+  }
+  
+  
+  
+});

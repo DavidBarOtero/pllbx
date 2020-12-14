@@ -7,7 +7,6 @@ import ProfileScreen from "./../components/screens/ProfileScreen";
 import CustomTab from "./CustomTab";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-
 export const TabNavigator = (props) => {
   const Tab = createBottomTabNavigator();
   const [openMenu, setOpenMenu] = useState(false);
@@ -15,53 +14,14 @@ export const TabNavigator = (props) => {
     return setOpenMenu(!openMenu);
   }
   useEffect(() => {
-     console.log(openMenu);
+    console.log(openMenu);
   }, [openMenu]);
-  
-  const addButton=()=>{
-    
-    <View style={{position:"absolute",alignItems:"center"}}>
-    <View>
-    <TouchableHighlight underlayColor="#7f58ff">
-    
-    <View></View>
-    
-    
-    </TouchableHighlight>
-    
-    
-    </View>
-    
-    </View>
-    
-    
-  }
-  
-  return (
-    <>
-      {openMenu === true && (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            top: 570,
-            margin: 0,
-          }}
-        >
-          <Button title="crear"></Button>
 
-          <Button title="editar"></Button>
-        </View>
-      )}
-      <View>
-        <View style={{ alignItems: "center", alignSelf: "center", top: 600 }}>
-          <Button onPress={console.log("aaa")} title="Menú"></Button>
-        </View>
-      </View>
+  return (
+  
 
       <Tab.Navigator
-        initialRouteName="ProfileScreen"
+        initialRouteName="Home"
         tabBar={(props) => <CustomTab {...props} />}
         tabBarOptions={{
           activeTintColor: "#fff",
@@ -75,10 +35,31 @@ export const TabNavigator = (props) => {
           options={{
             title: "Home",
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="ios-build" size={size} color={color} />
+              <Ionicons name="ios-home" size={size} color={color} />
             ),
           }}
         />
+            <Tab.Screen
+          name="Añadir"
+          component={HomeScreen}
+          options={{
+            title: "Añadir",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="ios-add-circle" size={size} color={color}/>
+            ),
+          }}
+        />
+               <Tab.Screen
+          name="Editar"
+          component={HomeScreen}
+          options={{
+            title: "Editar",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="ios-book" size={size} color={color} />
+            ),
+          }}
+        />
+
         <Tab.Screen
           name="Perfil"
           component={ProfileScreen}
@@ -90,6 +71,6 @@ export const TabNavigator = (props) => {
           }}
         />
       </Tab.Navigator>
-    </>
+ 
   );
 };
