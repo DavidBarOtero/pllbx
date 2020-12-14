@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 
+
 export default (props) => {
+  
+
   const {
     state,
     descriptors,
@@ -19,10 +22,8 @@ export default (props) => {
       <View
         style={{
           flexDirection: "row",
-
           height: 64,
           alignItems: "center",
-
           justifyContent: "space-around",
         }}
       >
@@ -43,8 +44,9 @@ export default (props) => {
             ? activeBackgroundColor
             : inactiveBackgroundColor;
 
-          const onPress = () => navigation.navigate(route.name);
-
+          const onPress = (props) => {
+            navigation.navigate(route.name);
+          };
           return (
             <TouchableOpacity
               key={index}

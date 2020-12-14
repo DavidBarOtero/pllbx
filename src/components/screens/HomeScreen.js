@@ -3,11 +3,15 @@ import { Text, StyleSheet, View, Button } from "react-native";
 import AuthContext from "./../../api/Auth-Context";
 import firebase from "./../../database/firebase";
 
-export default function HomeScreen({ navigation }) {
+
+
+
+
+export default function HomeScreen({ route, navigation }) {
   const { user } = useContext(AuthContext);
 
+  
   useEffect(() => {
-    console.log(user);
     firebase.auth().onAuthStateChanged((e) => {
       if (user != true) {
         navigation.navigate("LogReg");
@@ -21,6 +25,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View>
       <Text>HomeScreen</Text>
+      
     </View>
   );
 }

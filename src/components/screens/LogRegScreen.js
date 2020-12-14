@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import AuthContext from "./../../api/Auth-Context";
-import { register } from "../../api/Auth-Context";
+
 
 import { FontAwesome } from "@expo/vector-icons";
 
