@@ -1,10 +1,7 @@
 import React, { useState, useContext } from "react";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 
-
 export default (props) => {
-  
-
   const {
     state,
     descriptors,
@@ -18,6 +15,8 @@ export default (props) => {
   const { routes } = state;
 
   return (
+   
+    
     <SafeAreaView>
       <View
         style={{
@@ -28,8 +27,9 @@ export default (props) => {
         }}
       >
         {routes.map((route, index) => {
+          if(route.name!="CreatePllb"){}
+          
           const { options } = descriptors[route.key];
-
           const label =
             options.tabBarLabel !== undefined
               ? options.tabBarLabel
@@ -45,11 +45,22 @@ export default (props) => {
             : inactiveBackgroundColor;
 
           const onPress = (props) => {
+            
+            if(route.name==="Crear"){
+              
+              navigation.navigate('Crear', { screen: 'Add' });
+              
+            }
+            console.log(route.name);
             navigation.navigate(route.name);
           };
           return (
+            
+           
+        
             <TouchableOpacity
               key={index}
+              
               style={{
                 display: "flex",
                 backgroundColor: backgroundColor,
@@ -65,6 +76,7 @@ export default (props) => {
               }}
               onPress={onPress}
             >
+    
               {options.tabBarIcon !== undefined &&
                 options.tabBarIcon({ color: tintColor, size: 28 })}
               {

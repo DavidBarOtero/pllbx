@@ -11,16 +11,16 @@ export default function HomeScreen({ route, navigation }) {
   const { user } = useContext(AuthContext);
 
   
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((e) => {
-      if (user != true) {
-        navigation.navigate("LogReg");
-      } else {
-        navigation.navigate("Home");
-      }
-    }),
-      [user];
-  });
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged((e) => {
+  //     if (user != true) {
+  //       navigation.navigate("LogReg");
+  //     } else {
+  //       navigation.navigate("Home");
+  //     }
+  //   }),
+  //     [user];
+  // });
 
   return (
     <View style={styles.container}>
@@ -33,7 +33,7 @@ export default function HomeScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   
   container:{
-    top:40
+    top:30
     
     
   }
