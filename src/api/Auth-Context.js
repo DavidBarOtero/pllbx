@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Facebook from "expo-facebook";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { firebaseConfig } from "./../database/firebase";
-
 import firebase from "../database/firebase";
-
 import "@firebase/auth";
 import "@firebase/firestore";
 

@@ -18,7 +18,7 @@ export const AddScreen = ({ navigation }) => {
     setName({  namePllb: value });
 
   };
-  const navigate=()=>name.namePllb!=""?navigation.navigate("CreatePllb"):alert("Debes darle un nombre antes de poder continuar");
+  const navigate=()=>name.namePllb!=""?navigation.navigate("CreatePllb",{name:name.namePllb}):alert("Debes darle un nombre antes de poder continuar");
 
   return (
     <View style={styles.fullContainer}>
